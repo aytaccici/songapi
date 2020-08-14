@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::get('/v1/auth/login', function () {})->name('login');
+Route::post('/v1/auth/register',  [\App\Http\Controllers\Api\Auth\AuthController::class, 'register'])->name('auth.register');
+
