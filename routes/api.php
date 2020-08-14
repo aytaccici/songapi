@@ -17,3 +17,6 @@ use Illuminate\Http\Request;
 Route::get('/v1/auth/login', function () {})->name('login');
 Route::post('/v1/auth/register',  [\App\Http\Controllers\Api\Auth\AuthController::class, 'register'])->name('auth.register');
 
+Route::middleware('api.check')->group(function () {
+    Route::get('v1/auth/me',  [\App\Http\Controllers\Api\Auth\AuthController::class, 'me'])->name('auth.me');
+});
