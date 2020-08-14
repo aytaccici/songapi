@@ -3,20 +3,45 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\BaseApiController;
+use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\UserStore;
 use App\Http\Resources\User\User as UserResource;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AuthController extends BaseApiController
 {
 
-    public function register(UserStore $request, AuthService $authService)
+    /**
+     * @param Login $request
+     * @param AuthService $authService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Login $request, AuthService $authService)
     {
 
-        $user =  $authService->register($request);
+        $credentials = $request->only('email', 'password');
 
-        return $this->success(new UserResource($user));
+        if (!$authService->authenticate($credentials)) {
+            return $this->failed(Response::HTTP_BAD_REQUEST, 'Invalid credentials');
+        }
+
+        $authService->updateAccessToken($request->user());
+
+        return $this->success(new UserResource($request->user()));
+    }
+
+
+    /**
+     * @param UserStore $request
+     * @param AuthService $authService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(UserStore $request, AuthService $authService)
+    {
+        $user = $authService->register($request);
+        return $this->success(new UserResource($user), Response::HTTP_CREATED);
     }
 
 

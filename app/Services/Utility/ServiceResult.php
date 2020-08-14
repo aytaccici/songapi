@@ -2,6 +2,10 @@
 
 namespace App\Services\Utility;
 
+/**
+ * Class ServiceResult
+ * @package App\Services\Utility
+ */
 class ServiceResult
 {
 

@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Http\Controllers\BaseApiController;
 use Closure;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
 class ApiTokenCheck
 {
@@ -17,10 +19,26 @@ class ApiTokenCheck
      */
     public function handle($request, Closure $next)
     {
+
+        $user = User::where('api_token', '=', $this->getToken())->first();
+
+        $request->setUserResolver(function () use ($user) {
+            return $user;
+        });
+
         if (!$request->user()) {
             throw new HttpResponseException(
                 (new BaseApiController())->forbidden());
         }
         return $next($request);
+    }
+
+
+    /**
+     * @return string
+     */
+    private function getToken(): string
+    {
+        return Auth::guard('api')->getTokenForRequest() ?? '';
     }
 }

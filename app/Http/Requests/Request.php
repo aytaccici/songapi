@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 
 use App\Http\Controllers\BaseApiController;
-use App\Services\Utility\ServiceResult;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest as LaravelFormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -29,7 +28,7 @@ abstract class Request extends LaravelFormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            (new BaseApiController())->failed([], Response::HTTP_BAD_REQUEST,
+            (new BaseApiController())->failed(Response::HTTP_BAD_REQUEST,
                 $this->getSingleLineErrorMessage($validator))
         );
     }

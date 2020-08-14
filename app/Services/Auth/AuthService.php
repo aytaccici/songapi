@@ -4,10 +4,8 @@ namespace App\Services\Auth;
 
 use App\User;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Passwords\PasswordBrokerManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 /**
@@ -63,14 +61,24 @@ class AuthService
     public function register(Request $request)
     {
 
-        $merge = array(
+        $merge   = array(
             'email_verified_at' => now(),
             'password'          => bcrypt($request->get('password')),
             'remember_token'    => Str::random(10),
             'api_token'         => $this->generateAccessToken(),
         );
-        $request = array_merge($request->all(),$merge);
+        $request = array_merge($request->all(), $merge);
         return $this->user->create($request);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function updateAccessToken(User $user)
+    {
+        $token = $this->generateAccessToken();
+
+        $user->update(['api_token' => $token]);
     }
 
 
@@ -82,39 +90,6 @@ class AuthService
         return Str::random(60);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return bool
-     */
-    public function sendForgotPasswordResetLink(Request $request)
-    {
-        $response = $this->passwordBrokerManager->sendResetLink(
-            $request->only('email')
-        );
-
-        return $response === Password::RESET_LINK_SENT;
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return bool
-     */
-    public function resetPassword(Request $request)
-    {
-        $response = $this->passwordBrokerManager->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, $password) {
-                $user->password = $password;
-                $user->save();
-                event(new PasswordReset($user));
-            }
-        );
-
-        return $response === Password::PASSWORD_RESET;
-
-    }
 
     /**
      * @param \Illuminate\Http\Request $request
