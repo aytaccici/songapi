@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Song;
 
 use App\Http\Requests\Request;
 
-class Login extends Request
+class AddFavorite extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class Login extends Request
     public function rules()
     {
         return [
-            'email'    => 'required',
-            'password' => 'required'
+            'song_id' => 'required|int',
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\BaseApiController;
+use App\Services\Utility\JsonResponseService;
 use Closure;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -21,14 +21,13 @@ class ApiTokenCheck
     {
 
         $user = User::where('api_token', '=', $this->getToken())->first();
-
         $request->setUserResolver(function () use ($user) {
             return $user;
         });
 
         if (!$request->user()) {
             throw new HttpResponseException(
-                (new BaseApiController())->forbidden());
+                (new JsonResponseService())->forbidden());
         }
         return $next($request);
     }

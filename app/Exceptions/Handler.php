@@ -3,8 +3,6 @@
 namespace App\Exceptions;
 
 use App\Http\Controllers\BaseApiController;
-use App\Services\JsonResponseService;
-use App\Services\Utility\ServiceResult;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\Container;
@@ -70,22 +68,23 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof MethodNotAllowedHttpException) {
-            return $this->baseApiController->failed(Response::HTTP_METHOD_NOT_ALLOWED, $exception->getMessage());
+
+            return $this->baseApiController->service->fail(Response::HTTP_METHOD_NOT_ALLOWED, $exception->getMessage());
         }
 
 
         if ($exception instanceof AuthenticationException) {
-            return $this->baseApiController->failed(Response::HTTP_UNAUTHORIZED, $exception->getMessage());
+            return $this->baseApiController->service->fail(Response::HTTP_UNAUTHORIZED, $exception->getMessage());
         }
 
         if ($exception instanceof ModelNotFoundException) {
 
-            return $this->baseApiController->failed(Response::HTTP_NOT_FOUND, $exception->getMessage());
+            return $this->baseApiController->service->fail(Response::HTTP_NOT_FOUND, $exception->getMessage());
         }
 
         if ($exception instanceof NotFoundHttpException) {
 
-            return $this->baseApiController->failed(Response::HTTP_NOT_FOUND, $exception->getMessage());
+            return $this->baseApiController->service->fail(Response::HTTP_NOT_FOUND, $exception->getMessage());
         }
 
         if ($exception instanceof HttpResponseException) {

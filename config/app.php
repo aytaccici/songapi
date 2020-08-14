@@ -15,6 +15,17 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Paginate Limit
+    |--------------------------------------------------------------------------
+    |
+    | This value is set of paginate limit of Api Resource
+    |
+    */
+    'paginate_limit' => env('PAGINATE_LIMIT', 10),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -161,6 +172,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        \App\Providers\RepositoryProvider::class,
 
         /*
          * Package Service Providers...

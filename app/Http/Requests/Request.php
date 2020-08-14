@@ -28,7 +28,7 @@ abstract class Request extends LaravelFormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            (new BaseApiController())->failed(Response::HTTP_BAD_REQUEST,
+            (new BaseApiController())->service->fail(Response::HTTP_BAD_REQUEST,
                 $this->getSingleLineErrorMessage($validator))
         );
     }
