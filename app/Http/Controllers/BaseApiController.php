@@ -22,18 +22,18 @@ class BaseApiController extends Controller
     }
 
 
-    public function failed($resource = [], $code = Response::HTTP_BAD_REQUEST, $message = 'Failed')
+    public function failed($code = Response::HTTP_BAD_REQUEST, $message = 'Failed')
     {
-        $this->serviceResult->data    = $resource;
-        $this->serviceResult->message = $message;
+        $this->serviceResult->message   = $message;
+        $this->serviceResult->errorCode = $code;
         return response()->json($this->serviceResult, $code);
     }
 
 
     public function forbidden($code = Response::HTTP_FORBIDDEN, $message = 'Login Required.')
     {
-        $this->serviceResult->errorCode = ServiceResult::LOGIN_REQUIRED;
         $this->serviceResult->message   = $message;
+        $this->serviceResult->errorCode = $code;
         return response()->json($this->serviceResult, $code);
     }
 
