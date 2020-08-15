@@ -15,5 +15,16 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(User::class, 10)->create();
+
+        $me = [
+            'name'              => 'Aytaç Cici',
+            'email'             => 'aytaccici@gmail.com',
+            'email_verified_at' => now(),
+            'password'          => bcrypt('123456'),
+            'remember_token'    => Str::random(10),
+            'api_token'         => Str::random(60),
+        ];
+
+        User::create($me);
     }
 }

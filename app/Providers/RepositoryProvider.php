@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 
+use App\Contracts\ApplicationContact;
 use App\Contracts\CategoryContact;
 use App\Contracts\FavoriteContract;
 use App\Contracts\SongContact;
 use App\Contracts\UserContract;
+use App\Repositories\ApplicationRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\SongRepository;
@@ -37,5 +39,6 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(CategoryContact::class, CategoryRepository::class);
         $this->app->bind(SongContact::class, SongRepository::class);
         $this->app->bind(FavoriteContract::class, FavoriteRepository::class);
+        $this->app->bind(ApplicationContact::class, ApplicationRepository::class);
     }
 }
