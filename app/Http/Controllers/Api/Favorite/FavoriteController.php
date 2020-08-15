@@ -1,28 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\Song;
+namespace App\Http\Controllers\Api\Favorite;
 
-use App\Contracts\SongContact;
+use App\Contracts\FavoriteContract;
 use App\Http\Controllers\BaseApiController;
+use App\Http\Requests\Favorite\DeleteFavorite;
 use App\Http\Requests\Song\AddFavorite;
-use App\Http\Requests\Song\SongStore;
 use App\Http\Resources\Favorite\FavoriteResource;
-use App\Http\Resources\Song\SongResource;
 use App\Services\Favorite\FavoriteService;
 use Illuminate\Http\Response;
 
-class SongController extends BaseApiController
+class FavoriteController extends BaseApiController
 {
 
-    protected $songContact;
+    protected $favoriteContact;
 
     /**
      * SongController constructor.
-     * @param SongContact $songContact
+     * @param FavoriteContract $favoriteContact
      */
-    public function __construct(SongContact $songContact)
+    public function __construct(FavoriteContract $favoriteContact)
     {
-        $this->songContact = $songContact;
+        $this->favoriteContact = $favoriteContact;
         parent::__construct();
     }
 
@@ -32,18 +31,8 @@ class SongController extends BaseApiController
      */
     public function index()
     {
-        $data = SongResource::collection(($this->songContact->paginate(config('paginate_limit'))));
+        $data = FavoriteResource::collection(($this->favoriteContact->paginate(config('paginate_limit'))));
         return $this->service->success($data);
-    }
-
-    /** get Song Detail
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show(int $id)
-    {
-        $collection = new  SongResource(($this->songContact->show($id)));
-        return $this->service->success($collection);
     }
 
 
@@ -64,9 +53,9 @@ class SongController extends BaseApiController
      * @param FavoriteService $favoriteService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteFavorite(AddFavorite $request, FavoriteService $favoriteService)
+    public function deleteFavorite(DeleteFavorite $request, FavoriteService $favoriteService)
     {
-        $favoriteService->deleteFavorite($request);
+        $favoriteService->deleteFavoriteWithId((int)$request->id);
         return $this->service->noContent();
     }
 }

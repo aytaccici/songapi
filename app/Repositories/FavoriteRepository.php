@@ -17,8 +17,14 @@ class FavoriteRepository extends BaseRepository implements FavoriteContract
         return Favorite::class;
     }
 
-    public function getFavoriteSongWithUserAndSongId($userId, $songId)
+    public function getFavoriteSongWithUserAndSongId(int $userId, int $songId)
     {
         return $this->entity->where('user_id', '=', $userId)->where('song_id', '=', $songId)->first();
+    }
+
+
+    public function deleteFavoriteSongWithUserAndSongId(int $userId, int $songId)
+    {
+        return $this->entity->where('user_id', '=', $userId)->where('song_id', '=', $songId)->delete();
     }
 }

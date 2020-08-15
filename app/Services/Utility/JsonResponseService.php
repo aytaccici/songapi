@@ -25,10 +25,10 @@ class JsonResponseService
             ->setStatusCode($code);
     }
 
+
     /**
-     * @param array $resource
      * @param int $code
-     *
+     * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
     public function fail($code = Response::HTTP_UNPROCESSABLE_ENTITY, $message = 'Failed')

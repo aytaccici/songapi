@@ -33,6 +33,10 @@ abstract class Request extends LaravelFormRequest
         );
     }
 
+    /**
+     * @param Validator $validator
+     * @return string
+     */
     private function getSingleLineErrorMessage(Validator $validator): string
     {
 

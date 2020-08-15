@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     protected $guarded=[];
-
-
+    
     public function song(){
         return $this->belongsTo(Song::class);
     }

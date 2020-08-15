@@ -27,7 +27,8 @@ class RepositoryProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
-     *
+     * Laravel contractlarımızı, Repositer ile bind ettik. Böylelikle örneğin  UserContract'ı kullandığımızda
+     * aslında UserRepository örneğine erişebileceğiz
      * @return void
      */
     public function boot()

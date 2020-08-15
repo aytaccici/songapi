@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Favorite;
 
 use App\Http\Requests\Request;
 
-class UserStore extends Request
+class DeleteFavorite extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class UserStore extends Request
     public function rules()
     {
         return [
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required'
+            'id' => 'required|int',
         ];
     }
 }

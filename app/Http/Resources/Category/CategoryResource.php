@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Category;
 
-use App\Http\Resources\Song\FavoriteResource;
+use App\Http\Resources\Song\SongResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryResource extends JsonResource
@@ -20,7 +20,7 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'image' => config('app.url').'/'.$this->image_path,
             $this->mergeWhen($request->route()->getActionMethod() == 'show', [
-                'songs' => FavoriteResource::collection($this->songs),
+                'songs' => SongResource::collection($this->songs),
             ])
         ];
     }
